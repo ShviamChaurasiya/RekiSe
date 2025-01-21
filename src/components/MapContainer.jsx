@@ -5,13 +5,10 @@ import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import { Draw } from "ol/interaction";
-import { initDrawInteraction, stopDrawingOnEnter, switchToPolygonDrawing } from "../utils/drawHelpers";
+import { initDrawInteraction, stopDrawingOnEnter } from "../utils/drawHelpers";
 import Modal from "./Modal";
 import WaypointList from "./WaypointList";
 import { toLonLat } from "ol/proj";
-import { Feature } from "ol";
-import { LineString } from "ol/geom";
 
 const MapContainer = () => {
   const mapRef = useRef(null);
@@ -25,15 +22,18 @@ const MapContainer = () => {
   const [isPolygonDrawingMode, setIsPolygonDrawingMode] = useState(false);
   const [isWaypointCreationPaused, setIsWaypointCreationPaused] = useState(false);
 
+  // Toggle drawing mode
   const handleToggleDrawingMode = () => {
     setIsDrawingMode(!isDrawingMode);
   }
 
+  // Toggle polygon drawing mode
   const handleTogglePolygonDrawingMode = () => {
     setIsPolygonDrawingMode(!isPolygonDrawingMode);
     setIsWaypointCreationPaused(true);
   }
 
+  // Insert a new polygon
   const handleInsertPolygon = (index, position) => {
     setIsPolygonDrawingMode(true);
     setPolygons((prevPolygons) => [
@@ -42,6 +42,7 @@ const MapContainer = () => {
     ]);
   }
 
+  // Clear all drawings
   const handleClearDrawings = () => {
     vectorSource.clear();
     setWaypoints([]);
@@ -51,6 +52,7 @@ const MapContainer = () => {
     setIsWaypointCreationPaused(false); // Resume waypoint creation
   }
 
+  // Generate data and show in modal
   const handleGenerateData = () => {
     setModalContent(
       <div>

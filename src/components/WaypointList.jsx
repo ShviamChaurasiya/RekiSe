@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 
+// WaypointList component to display waypoints and polygons
 const WaypointList = ({ waypoints = [], handleInsertPolygon, handleClearDrawings, polygons = [], handleGenerateData }) => {
   const [dropdownOpen, setDropdownOpen] = useState(null);
 
   useEffect(() => {
     console.log("Updated waypoints:", waypoints); // Debug log
 
+    // Close dropdown when clicking outside
     const handleClickOutside = (event) => {
       if (!event.target.closest(".dropdown")) {
         setDropdownOpen(null);
@@ -19,18 +21,21 @@ const WaypointList = ({ waypoints = [], handleInsertPolygon, handleClearDrawings
     };
   }, [waypoints]);
 
+  // Toggle dropdown menu
   const toggleDropdown = (index) => {
     setDropdownOpen(dropdownOpen === index ? null : index);
   };
 
-  const triggerPolygonDrawing = (index, position) => {
+  // Trigger polygon drawing
+  const triggerPolygonDrawing = (index) => {
     const polygonButton = document.getElementById("polygon-drawing-button");
     if (polygonButton) {
       polygonButton.click();
-      handleInsertPolygon(index, position);
+      handleInsertPolygon(index);
     }
   };
 
+  // Calculate height of the component
   const calculateHeight = () => {
     const itemCount = waypoints.length + polygons.length;
     const baseHeight = 200; // Base height in pixels
@@ -59,15 +64,9 @@ const WaypointList = ({ waypoints = [], handleInsertPolygon, handleClearDrawings
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-20">
                   <button
                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => triggerPolygonDrawing(index, "before")}
+                    onClick={() => triggerPolygonDrawing(index)}
                   >
-                    Add Polygon Before
-                  </button>
-                  <button
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => triggerPolygonDrawing(index, "after")}
-                  >
-                    Add Polygon After
+                    Add Polygon
                   </button>
                 </div>
               )}

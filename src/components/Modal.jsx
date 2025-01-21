@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 
+// Modal component to display content in a modal dialog
 const Modal = ({ isOpen, onClose, children }) => {
   useEffect(() => {
     const handleKeyDown = (e) => {

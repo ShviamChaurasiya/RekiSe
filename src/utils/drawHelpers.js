@@ -1,7 +1,6 @@
 import { Draw } from "ol/interaction";
-import { Style, Stroke, Icon } from "ol/style";
 import { Feature } from "ol";
-import { LineString, Polygon } from "ol/geom";
+import { Polygon } from "ol/geom";
 
 // Initialize drawing interaction
 export const initDrawInteraction = (vectorSource, map, type = "LineString") => {
