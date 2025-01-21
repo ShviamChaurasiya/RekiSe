@@ -52,12 +52,37 @@ const MapContainer = () => {
   }
 
   const handleGenerateData = () => {
-    const data = {
-      waypoints,
-      polygons,
-    };
-    console.log("Generated Data:", data);
-    alert("Data generated! Check the console for details.");
+    setModalContent(
+      <div>
+        <h3 className="font-bold mb-2">Generated Data</h3>
+        <div className="bg-gray-100 p-4 rounded">
+          <h4 className="font-semibold">Waypoints:</h4>
+          <ul className="list-disc pl-5">
+            {waypoints.map((wp, index) => (
+              <li key={index} className="mb-2">
+                <span className="font-medium">WP{index + 1}:</span> [{wp.coordinates[0].toFixed(2)}, {wp.coordinates[1].toFixed(2)}]
+              </li>
+            ))}
+          </ul>
+          <h4 className="font-semibold mt-4">Polygons:</h4>
+          <ul className="list-disc pl-5">
+            {polygons.map((polygon, index) => (
+              <li key={index} className="mb-2">
+                <span className="font-medium">Poly{index + 1}:</span>
+                <ul className="list-disc pl-5">
+                  {polygon.coordinates.map((coord, i) => (
+                    <li key={i}>
+                      [{coord[0].toFixed(2)}, {coord[1].toFixed(2)}]
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+    setIsModalOpen(true);
   }
 
   useEffect(() => {
@@ -109,7 +134,6 @@ const MapContainer = () => {
             const updatedPolygon = { ...lastPolygon, coordinates: updatedCoordinates };
             return [...prevPolygons.slice(0, -1), updatedPolygon];
           });
-          setPolygonCount(prevCount => prevCount + 1); // Increment polygon count
         }
         setIsPolygonDrawingMode(false); // Stop polygon drawing mode when drawing ends or Enter key is pressed
         setIsWaypointCreationPaused(false); // Resume waypoint creation
@@ -199,7 +223,7 @@ const MapContainer = () => {
       </button>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <p>{modalContent}</p>
+        {modalContent}
       </Modal>
 
       <WaypointList

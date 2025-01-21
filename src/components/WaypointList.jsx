@@ -46,7 +46,7 @@ const WaypointList = ({ waypoints = [], handleInsertPolygon, handleClearDrawings
         {waypoints.map((wp, index) => (
           <li key={index} className="flex items-center justify-between">
             <span className="text-sm text-gray-700">
-              {`WP${index + 1}: [${wp.coordinates[0].toFixed(2)}, ${wp.coordinates[1].toFixed(2)}]`}
+              {`WP${index + 1}: [${Number(wp.coordinates[0]).toFixed(2)}, ${Number(wp.coordinates[1]).toFixed(2)}]`}
             </span>
             <div className="relative dropdown">
               <button
@@ -82,7 +82,7 @@ const WaypointList = ({ waypoints = [], handleInsertPolygon, handleClearDrawings
             <ul className="ml-4">
               {polygon.coordinates.map((coord, i) => (
                 <li key={i} className="text-xs text-gray-600">
-                  {`[${coord[0].toFixed(2)}, ${coord[1].toFixed(2)}]`}
+                  {`[${Number.isNaN(coord[0]) ? "Initial X" : Number(coord[0]).toFixed(2)}, ${Number.isNaN(coord[1]) ? "Initial Y" : Number(coord[1]).toFixed(2)}]`}
                 </li>
               ))}
             </ul>

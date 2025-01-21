@@ -17,6 +17,11 @@ const Modal = ({ isOpen, onClose, children }) => {
     };
   }, [isOpen, onClose]);
 
+  const handleClose = () => {
+    onClose();
+    window.location.reload(); // Reload the website to be fresh
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -28,7 +33,7 @@ const Modal = ({ isOpen, onClose, children }) => {
       <div className="bg-white rounded-lg p-6 shadow-md w-full max-w-md sm:max-w-lg">
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={handleClose}
           aria-label="Close Modal"
           className="text-red-500 font-bold text-lg float-right"
         >

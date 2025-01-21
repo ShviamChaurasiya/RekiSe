@@ -19,6 +19,14 @@ export const initDrawInteraction = (vectorSource, map, type = "LineString") => {
     map.on("pointerdown", (e) => {
       const clickedCoordinate = map.getEventCoordinate(e.originalEvent);
       console.log("Clicked coordinate:", clickedCoordinate); // Log coordinate
+
+      // Check if the clicked coordinate is the first point of the polygon
+      if (type === "Polygon") {
+        const coordinates = feature.getGeometry().getCoordinates()[0];
+        if (coordinates.length > 2 && clickedCoordinate.toString() === coordinates[0].toString()) {
+          draw.finishDrawing(); // Complete the polygon
+        }
+      }
     });
 
     // Clean up after draw ends
@@ -37,7 +45,6 @@ export const stopDrawingOnEnter = (drawInteraction, callback) => {
   drawInteraction.on("drawend", (event) => {
     const coordinates = event.feature.getGeometry().getCoordinates();
     callback(coordinates, drawInteraction.type_);
-    alert("Drawing completed!"); // Notify user
   });
 
   const handleKeyDown = (e) => {
